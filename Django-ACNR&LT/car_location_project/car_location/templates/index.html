@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Locations</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #343a40;
+        }
+        .table {
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        td {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between mb-4">
+            <h1>Car Locations</h1>
+            <div>
+                <a href="{% url 'search_plate' %}" class="btn btn-primary">Get Latest Vehicle Location</a>
+                <a href="{% url 'car_location_history' %}" class="btn btn-secondary">View Car Location History</a>
+            </div>
+        </div>
+        
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Current Time</th>
+                    <th>Recognized Plate</th>
+                    <th>Street</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Zip</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for location in car_locations %}
+                <tr>
+                    <td>{{ location.current_time }}</td>
+                    <td>{{ location.recognized_plate }}</td>
+                    <td>
+                        {% if location.address %}
+                            {{ location.address.Street|default:"N/A" }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if location.address %}
+                            {{ location.address.City|default:"N/A" }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if location.address %}
+                            {{ location.address.State|default:"N/A" }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if location.address %}
+                            {{ location.address.Zip|default:"N/A" }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
